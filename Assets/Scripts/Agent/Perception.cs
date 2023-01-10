@@ -6,6 +6,7 @@ public class Perception : MonoBehaviour
 {
 	[Range(1, 40)] public float distance = 1;
 	[Range(1, 180)] public float maxAngle = 45;
+	public string tagName = "";
 
 	public GameObject[] GetGameObjects()
 	{
@@ -16,8 +17,21 @@ public class Perception : MonoBehaviour
 		{
 			if (collider.gameObject == gameObject) continue;
 
-			result.Add(collider.gameObject);
-		}
+			if (tagName == "" || collider.CompareTag(tagName))
+			{
+                // calculate angle from transform forward vector to direction of game object 
+                Vector3 direction = (collider.transform.position - transform.position).normalized;
+
+                float cos = Vector3.Dot(transform.forward, direction);
+                float angle = Mathf.Acos(cos) * Mathf.Rad2Deg;
+
+                if (angle <= maxAngle)
+                {
+                    result.Add(collider.gameObject);
+                }
+            }
+            
+        }
 
 		return result.ToArray();
 	}
