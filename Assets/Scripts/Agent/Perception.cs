@@ -32,7 +32,15 @@ public class Perception : MonoBehaviour
             }
             
         }
+		result.Sort(CompareDistance);
 
 		return result.ToArray();
+	}
+
+	public int CompareDistance(GameObject a, GameObject b)
+	{
+		float squaredRangeA = (a.transform.position - transform.position).sqrMagnitude;
+		float squaredRangeB = (b.transform.position - transform.position).sqrMagnitude;
+		return squaredRangeA.CompareTo(squaredRangeB);
 	}
 }
