@@ -26,4 +26,21 @@ public static class Steering
 
 		return force;
 	}
+
+    public static Vector3 Wander(AutonAgent agent)
+    {
+        // randomly adjust angle +/- displacement 
+        agent.wanderAngle = agent.wanderAngle + Random.Range(-
+        agent.wanderDisplacement, agent.wanderDisplacement);
+        // create rotation quaternion around y-axis (up) 
+        Quaternion rotation = Quaternion.AngleAxis(agent.wanderAngle, Vector3.up);
+        // calculate point on circle radius 
+        Vector3 point = rotation * (Vector3.forward * agent.wanderRadius);
+        // set point in front of agent at distance length 
+        Vector3 forward = agent.transform.forward * agent.wanderDistance;
+
+        Vector3 force = CalculateSteering(agent, forward + point);
+
+        return force;
+    }
 }
