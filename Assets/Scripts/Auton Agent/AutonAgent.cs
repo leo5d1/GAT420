@@ -8,19 +8,7 @@ using UnityEngine.UIElements;
 public class AutonAgent : Agent
 {
     public Perception flockPerception;
-
-    [Range(0, 3)] public float seekWeight;
-    [Range(0, 3)] public float fleeWeight;
-
-    [Range(0, 3)] public float cohesionWeight;
-    [Range(0, 3)] public float seperationWeight;
-    [Range(0, 3)] public float alignmentWeight;
-
-    [Range(0, 10)] public float seperationRadius;
-
-    public float wanderDistance = 1;
-    public float wanderRadius = 3;
-    public float wanderDisplacement = 5;
+    public AutonAgentData data;
 
     public float wanderAngle { get; set; } = 0;
 
@@ -34,8 +22,8 @@ public class AutonAgent : Agent
 
         if (gameObjects.Length > 0)
         {
-            movement.ApplyForce(Steering.Seek(this, gameObjects[0]) * seekWeight);
-            movement.ApplyForce(Steering.Flee(this, gameObjects[0]) * fleeWeight);
+            movement.ApplyForce(Steering.Seek(this, gameObjects[0]) * data.seekWeight);
+            movement.ApplyForce(Steering.Flee(this, gameObjects[0]) * data.fleeWeight);
 		}
 
         gameObjects = flockPerception.GetGameObjects();
@@ -45,9 +33,9 @@ public class AutonAgent : Agent
             {
                 Debug.DrawLine(transform.position, gameObject.transform.position);
             }
-            movement.ApplyForce(Steering.Cohesion(this, gameObjects) * cohesionWeight);
-            movement.ApplyForce(Steering.Separation(this, gameObjects, seperationRadius) * seperationWeight);
-            movement.ApplyForce(Steering.Alignment(this, gameObjects) * alignmentWeight);
+            movement.ApplyForce(Steering.Cohesion(this, gameObjects) * data.cohesionWeight);
+            movement.ApplyForce(Steering.Separation(this, gameObjects, data.separationRadius) * data.separationWeight);
+            movement.ApplyForce(Steering.Alignment(this, gameObjects) * data.alignmentWeight);
         }
 
         if (movement.acceleration.sqrMagnitude <= movement.maxForce * 0.1f)
@@ -55,6 +43,6 @@ public class AutonAgent : Agent
             movement.ApplyForce(Steering.Wander(this));
         }
 
-        transform.position = Utilities.Wrap(transform.position, new Vector3(-10, -10, -10), new Vector3(10, 10, 10));
+        transform.position = Utilities.Wrap(transform.position, new Vector3(-20, -20, -20), new Vector3(20, 20, 20));
     }
 }
