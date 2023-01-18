@@ -94,13 +94,14 @@ GameObject:
   - component: {fileID: 3458294078249414689}
   - component: {fileID: 3458294078249414688}
   - component: {fileID: 3458294078249414687}
-  - component: {fileID: 3458294078249414686}
-  - component: {fileID: 4823028764359027047}
+  - component: {fileID: 8059021726784535271}
+  - component: {fileID: 5439415284585749517}
+  - component: {fileID: 1963467652852531311}
   - component: {fileID: 3458294078249414685}
   - component: {fileID: 3458294078249414684}
   - component: {fileID: 3458294078249414683}
   m_Layer: 0
-  m_Name: Agent01
+  m_Name: AutonAgent01
   m_TagString: Agent01
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,6 +120,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3458294077770437667}
+  - {fileID: 7883779394954282988}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -134,9 +136,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dec5c7b445f3864d97ecb3665719ec2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  perception: {fileID: 3458294078249414686}
+  perception: {fileID: 5439415284585749517}
   movement: {fileID: 3458294078249414687}
-  flockPerception: {fileID: 4823028764359027047}
+  flockPerception: {fileID: 8059021726784535271}
+  obstacleAvoidance: {fileID: 1963467652852531311}
   data: {fileID: 11400000, guid: a8c22e138f49f4e4d8f988362bdf8a04, type: 2}
 --- !u!114 &3458294078249414687
 MonoBehaviour:
@@ -150,10 +153,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d4f683c6c21d3640a70c0f5f7dc47da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 5
-  minSpeed: 3
+  maxSpeed: 10
+  minSpeed: 4
   maxForce: 100
---- !u!114 &3458294078249414686
+--- !u!114 &8059021726784535271
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,27 +165,50 @@ MonoBehaviour:
   m_GameObject: {fileID: 3458294078249414682}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7cd98ee377bd854186d754a11680372, type: 3}
+  m_Script: {fileID: 11500000, guid: 9adaa53c10fa1d94eba965c1bbc895c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 5
-  maxAngle: 90
-  tagName: Agent02
---- !u!114 &4823028764359027047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3458294078249414682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7cd98ee377bd854186d754a11680372, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distance: 40
-  maxAngle: 180
+  distance: 10
+  maxAngle: 150
   tagName: Agent01
+  raycastTransform: {fileID: 7883779394954282988}
+  numRaycast: 24
+--- !u!114 &5439415284585749517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3458294078249414682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9adaa53c10fa1d94eba965c1bbc895c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 15
+  maxAngle: 80
+  tagName: Agent02
+  raycastTransform: {fileID: 7883779394954282988}
+  numRaycast: 16
+--- !u!114 &1963467652852531311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3458294078249414682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe2b75535f9d0bc41a78c8dda75a2ae5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  raycastTransform: {fileID: 7883779394954282988}
+  distance: 10
+  maxAngle: 45
+  numRaycast: 16
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!33 &3458294078249414685
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -247,3 +273,34 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &5050626101398348117
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7883779394954282988}
+  m_Layer: 0
+  m_Name: Eye
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7883779394954282988
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5050626101398348117}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.4, z: 0.623}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3458294078249414689}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

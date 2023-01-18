@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 public class AutonAgent : Agent
 {
     public Perception flockPerception;
+    public ObstacleAvoidance obstacleAvoidance;
     public AutonAgentData data;
 
     public float wanderAngle { get; set; } = 0;
@@ -15,10 +16,6 @@ public class AutonAgent : Agent
     void Update()
     {
         var gameObjects = perception.GetGameObjects();
-        foreach (var gameObject in gameObjects) 
-        {
-            Debug.DrawLine(transform.position, gameObject.transform.position);
-        }
 
         if (gameObjects.Length > 0)
         {
@@ -29,16 +26,20 @@ public class AutonAgent : Agent
         gameObjects = flockPerception.GetGameObjects();
         if(gameObjects.Length > 0)
         {
-            foreach (var gameObject in gameObjects)
-            {
-                Debug.DrawLine(transform.position, gameObject.transform.position);
-            }
             movement.ApplyForce(Steering.Cohesion(this, gameObjects) * data.cohesionWeight);
             movement.ApplyForce(Steering.Separation(this, gameObjects, data.separationRadius) * data.separationWeight);
             movement.ApplyForce(Steering.Alignment(this, gameObjects) * data.alignmentWeight);
         }
 
-        if (movement.acceleration.sqrMagnitude <= movement.maxForce * 0.1f)
+		// obstacle avoidance 
+		if (obstacleAvoidance.IsObstacleInFront())
+		{
+			Vector3 direction = obstacleAvoidance.GetOpenDirection();
+			movement.ApplyForce(Steering.CalculateSteering(this, direction) * data.obstacleWeight);
+		}
+
+        // wander
+		if (movement.acceleration.sqrMagnitude <= movement.maxForce * 0.1f)
         {
             movement.ApplyForce(Steering.Wander(this));
         }
