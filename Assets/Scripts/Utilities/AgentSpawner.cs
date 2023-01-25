@@ -11,15 +11,14 @@ public class AgentSpawner : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Alpha1)) index = 0;
-        if (Input.GetKey(KeyCode.Alpha2)) index = 1;
+        if (Input.GetKeyDown(KeyCode.Tab)) index = ++index % agents.Length;
 
         if (Input.GetMouseButtonDown(0) || (Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftControl)))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hitInfo, 100, layerMask))
             {
-                Instantiate(agents[index], hitInfo.point, Quaternion.identity);
+                Instantiate(agents[index], hitInfo.point, Quaternion.AngleAxis(Random.Range(0,360), Vector3.up));
             }
         }
     }

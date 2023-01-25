@@ -16,8 +16,9 @@ MonoBehaviour:
   wanderRadius: 4
   wanderDisplacement: 4
   separationRadius: 16.01
-  seekWeight: 1
-  fleeWeight: 1.78
-  cohesionWeight: 1.22
-  separationWeight: 0.57
-  alignmentWeight: 3.23
+  seekWeight: 0
+  fleeWeight: 0
+  cohesionWeight: 0
+  separationWeight: 0
+  alignmentWeight: 0
+  obstacleWeight: 1

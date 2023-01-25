@@ -44,6 +44,9 @@ public class AutonAgent : Agent
             movement.ApplyForce(Steering.Wander(this));
         }
 
-        transform.position = Utilities.Wrap(transform.position, new Vector3(-20, -20, -20), new Vector3(20, 20, 20));
+        Vector3 position = transform.position;
+        position = Utilities.Wrap(position, new Vector3(-20, -20, -20), new Vector3(20, 20, 20));
+        position.y = 0;
+        transform.position = position;
     }
 }
