@@ -9,7 +9,7 @@ public class WaypointNavNode : NavNode
     {
         if (other.gameObject.TryGetComponent<NavAgent>(out NavAgent navAgent))
         {
-            if (navAgent.targetNode == this)
+            if (navAgent.targetNode == this && neighbors.Count > 0)
             {
                 navAgent.targetNode = neighbors[Random.Range(0, neighbors.Count)];
             }
